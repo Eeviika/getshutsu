@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=2 format=3 uid="uid://b7qerpay0o5p0"]
+
+[ext_resource type="Script" path="res://resource_scripts/weapon_resource.gd" id="1_mhox3"]
+
+[resource]
+script = ExtResource("1_mhox3")
+displayName = "Minigun"
+weaponID = &"dev_minigun"
+weaponType = "GunRapid"
+rarity = 4
+damage = 2
+fireRate = 10
+meleeType = "Stab"
+meleeRange = 0
+gunMagSize = 100
+bulletSpeed = 3
+reloadSpeed = 2

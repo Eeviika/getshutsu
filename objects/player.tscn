@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0fg4744utt04"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_1qugl"]
+[ext_resource type="Texture2D" uid="uid://f1wa8su6toy3" path="res://assets/player.png" id="2_nsgsq"]
+[ext_resource type="Texture2D" uid="uid://bt4xw736l07n7" path="res://assets/light_neutral.webp" id="3_omq4t"]
+[ext_resource type="Texture2D" uid="uid://xnijms8jkhpp" path="res://assets/flash.svg" id="4_oo1ld"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8k6jl"]
+radius = 24.0
+
+[node name="player" type="CharacterBody2D"]
+editor_description = "Player-character."
+collision_layer = 27
+collision_mask = 11
+motion_mode = 1
+script = ExtResource("1_1qugl")
+
+[node name="collisionShape2d" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8k6jl")
+
+[node name="flashLight" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = ExtResource("4_oo1ld")
+offset = Vector2(182, 0)
+texture_scale = 1.3
+metadata/_edit_lock_ = true
+
+[node name="pointLight2d" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = ExtResource("3_omq4t")
+metadata/_edit_lock_ = true
+
+[node name="camera2d" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="sprite2d" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_nsgsq")

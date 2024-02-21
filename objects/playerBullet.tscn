@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://il6vrsoy5d6g"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_yuolq"]
+[ext_resource type="Texture2D" uid="uid://dm38q8tptb74e" path="res://assets/idliketoseeyououtrunbullet.png" id="2_iwudt"]
+
+[node name="playerBullet" type="StaticBody2D"]
+editor_description = "Player bullet. Will not collide with or hurt other player characters."
+scale = Vector2(0.5, 0.5)
+collision_layer = 20
+collision_mask = 20
+script = ExtResource("1_yuolq")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_iwudt")
+
+[node name="collisionPolygon2d" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8, -4, 6, -4, 6, -3, 7, -3, 7, -2, 8, -2, 8, 2, 7, 2, 7, 3, 6, 3, 6, 4, -8, 4)
