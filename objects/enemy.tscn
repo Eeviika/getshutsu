@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://bpuvssb0yk3i8" path="res://assets/enemy.png" id="1_ia5hw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_loham"]
-radius = 24.0
+radius = 20.0
 
 [node name="enemy" type="CharacterBody2D"]
-collision_layer = 23
+collision_layer = 22
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_hje8d")
@@ -24,4 +24,13 @@ texture = ExtResource("1_ia5hw")
 [node name="nav" type="NavigationAgent2D" parent="."]
 
 [node name="playerSightCast" type="RayCast2D" parent="."]
-target_position = Vector2(0, 64)
+target_position = Vector2(0, 0)
+
+[node name="visiblityRange" type="Area2D" parent="."]
+monitorable = false
+
+[node name="collisionPolygon2d" type="CollisionPolygon2D" parent="visiblityRange"]
+polygon = PackedVector2Array(0, 0, 700, -600, 700, 600)
+
+[connection signal="body_entered" from="visiblityRange" to="." method="_on_visiblity_range_body_entered"]
+[connection signal="body_exited" from="visiblityRange" to="." method="_on_visiblity_range_body_exited"]
