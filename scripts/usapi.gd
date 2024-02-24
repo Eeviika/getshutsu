@@ -18,7 +18,7 @@ var projectConfig = {}
 var modLoader = null
 
 func _ready():
-	print("Hello, World!")
+	clog("Hello, World!")
 	projectConfig = {
 		"active": ProjectSettings.get_setting(projectSettingsDefaultPath + "usapi/is_active"),
 
@@ -28,22 +28,23 @@ func _ready():
 		"audioFolder": ProjectSettings.get_setting(projectSettingsDefaultPath + "usapi/audio_folder"),
 		"scriptsFolder": ProjectSettings.get_setting(projectSettingsDefaultPath + "usapi/scripts_folder"),
 
-		"cacheObjects": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_objects_on_start"),
-		"cacheAudio": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_audio_on_start"),
-		"cacheResources": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_resources_on_start"),
-		"cacheRooms": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_rooms_on_start"),
+		"cacheObjectsOnStart": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_objects_on_start"),
+		"cacheAudioOnStart": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_audio_on_start"),
+		"cacheResourcesOnStart": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_resources_on_start"),
+		"cacheRoomsOnStart": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_all_rooms_on_start"),
 		"cacheLimit": ProjectSettings.get_setting(projectSettingsDefaultPath + "caching/cache_limit"),
 	}
 	projectConfig.make_read_only() # Prevent any additional modifiers. Since we are grabbing from ProjectSettings, no reason to edit this anyway.
 	if projectConfig.active == false: print("USAPI has been disabled in project config."); queue_free();
 
-	for i in projectConfig:
-		if i == "active": continue;
+	for i: String in projectConfig: # Check if folder paths are valid.
+		if !(i is String and i.ends_with("Folder")): continue;
 		assert(projectConfig[i] != null, "ProjectSettings are not configured correctly. Missing \"{0}\".".format([i]))
 		assert(DirAccess.dir_exists_absolute(projectConfig[i]), "Directory for \"{0}\" is invalid; Points to \"{1}\"".format([i, projectConfig[i]]))
 	
+	# Check if ModLoader exists.
 	if ResourceLoader.exists(projectConfig.scriptsFolder + "/usapi-modloader.gd"):
-		print("USAPI: Detected USAPI ModLoader!")
+		clog("Detected USAPI ModLoader!")
 		modLoader = load(projectConfig.scriptsFolder + "/usapi-modloader.gd")
 		var modLoaderNode := Node.new()
 		modLoaderNode.name = "modLoader"
@@ -67,10 +68,12 @@ func summonObject(object: String, cache = true):
 		get_tree().current_scene.add_child(newobj)
 		return newobj
 	else: # Load the object from disk and cache it.
-		if not ResourceLoader.exists(projectConfig.objectsFolder + "/"+ object +".tscn"): push_error("Cannot summon object \"{0}\", file path \"{1}\" could not be found.".format([object, projectConfig.objectsFolder + "/"+ object +".tscn"])); return null;
+		if not ResourceLoader.exists(projectConfig.objectsFolder + "/"+ object +".tscn"): printerr("Cannot summon object \"{0}\", file path \"{1}\" could not be found.".format([object, projectConfig.objectsFolder + "/"+ object +".tscn"])); return null;
 		var newobj = load(projectConfig.objectsFolder + "/"+ object +".tscn")
-		if cache:
+		if cache and (len(objectCache) < projectConfig.cacheLimit and projectConfig.cacheLimit >= 0):
 			objectCache[object] = newobj
+		elif len(objectCache) >= projectConfig.cacheLimit and projectConfig.cacheLimit >= 0:
+			clog("Cannot cache object \"" + object + "\" because we hit the cache limit!", GlobalEnums.LogLevels.Error)
 		newobj = newobj.instantiate()
 		get_tree().current_scene.add_child(newobj)
 		return newobj
@@ -80,7 +83,7 @@ func getRandomTilePosOnTilemap(tileAtlasCoords: Vector2i):
 	var tilemap: TileMap = get_tree().current_scene.get_node_or_null("%tileMap")
 	var authorizedTiles = []
 	var nonAuthorizedTiles = []
-	if !tilemap: printerr("USAPI: Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?"); return;
+	if !tilemap: clog("Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?", GlobalEnums.LogLevels.Warn); return;
 	for coord in tilemap.get_used_cells(0):
 		if !(tilemap.get_cell_atlas_coords(0, coord) == tileAtlasCoords): nonAuthorizedTiles.append(coord); continue;
 		else: authorizedTiles.append(coord);
@@ -90,8 +93,6 @@ func getRandomTilePosOnTilemap(tileAtlasCoords: Vector2i):
 	if authorizedTiles.is_empty(): return;
 
 	return tilemap.to_global(tilemap.map_to_local(authorizedTiles.pick_random()))
-
-		
 
 ## Clears all caches. May free up memory at the cost of lag when loading objects again.
 func clearCaches(type=""):
@@ -109,3 +110,15 @@ func clearCaches(type=""):
 			audioCache.clear()
 			resourceCache.clear()
 			roomCache.clear()
+
+# Custom log command.
+func clog(text: String, type=GlobalEnums.LogLevels.Log):
+	if type == GlobalEnums.LogLevels.Warn:
+		print_rich("[color=yellow]USAPI: " + text + "[/color]")
+		push_warning("USAPI: " + text)
+		return;
+	if type == GlobalEnums.LogLevels.Error:
+		printerr("USAPI: " + text)
+		push_error("USAPI: " + text)
+		return;
+	print("USAPI: " + text)
