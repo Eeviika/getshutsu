@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d0fg4744utt04"]
+[gd_scene load_steps=7 format=3 uid="uid://d0fg4744utt04"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_1qugl"]
 [ext_resource type="Texture2D" uid="uid://f1wa8su6toy3" path="res://assets/player.png" id="2_nsgsq"]
@@ -7,6 +7,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8k6jl"]
 radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4locx"]
+radius = 32.0
 
 [node name="player" type="CharacterBody2D"]
 editor_description = "Player-character."
@@ -37,3 +40,14 @@ position_smoothing_enabled = true
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("2_nsgsq")
+
+[node name="soundArea" type="Area2D" parent="."]
+monitoring = false
+
+[node name="collisionShape2d" type="CollisionShape2D" parent="soundArea"]
+shape = SubResource("CircleShape2D_4locx")
+debug_color = Color(0.654902, 0.517647, 0, 0.419608)
+
+[node name="timers" type="Node2D" parent="."]
+
+[node name="footstepSound" type="Timer" parent="timers"]
