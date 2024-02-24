@@ -48,7 +48,6 @@ func transferMods():
 					var newfile = FileAccess.open("res://assets/"+file, FileAccess.WRITE)
 					newfile.store_string(originalfile.get_as_text())
 					newfile.close()
-		# dfsfdsfds
 			
 
 	return {"success": GlobalEnums.Success.YES};
