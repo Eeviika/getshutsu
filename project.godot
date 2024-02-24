@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Getshutsu"
+config/version="predemo-0.0.1"
 config/tags=PackedStringArray("prioritize", "work_on_now")
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Uncoded Studios/Getshutsu"
@@ -44,10 +45,6 @@ enabled=PackedStringArray("res://addons/ResourcePlus/plugin.cfg")
 
 import/blender/enabled=false
 import/fbx/enabled=false
-
-[godot_idea_board]
-
-directory_path="res://addons/godot-idea-board/savedata/"
 
 [input]
 
@@ -135,4 +132,4 @@ caching/cache_all_objects_on_start=false
 caching/cache_all_audio_on_start=true
 caching/cache_all_resources_on_start=false
 caching/cache_all_rooms_on_start=false
-caching/cache_limit=-1
+caching/cache_limit=50
