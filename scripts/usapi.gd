@@ -18,7 +18,7 @@ var projectConfig = {}
 var modLoader = null
 
 func _ready():
-	clog("Hello, World!")
+	customlog("Hello, World!")
 	projectConfig = {
 		"active": ProjectSettings.get_setting(projectSettingsDefaultPath + "usapi/is_active"),
 
@@ -44,7 +44,7 @@ func _ready():
 	
 	# Check if ModLoader exists.
 	if ResourceLoader.exists(projectConfig.scriptsFolder + "/usapi-modloader.gd"):
-		clog("Detected USAPI ModLoader!")
+		customlog("Detected USAPI ModLoader!")
 		modLoader = load(projectConfig.scriptsFolder + "/usapi-modloader.gd")
 		var modLoaderNode := Node.new()
 		modLoaderNode.name = "modLoader"
@@ -73,7 +73,7 @@ func summonObject(object: String, cache = true):
 		if cache and (len(objectCache) < projectConfig.cacheLimit and projectConfig.cacheLimit >= 0):
 			objectCache[object] = newobj
 		elif len(objectCache) >= projectConfig.cacheLimit and projectConfig.cacheLimit >= 0:
-			clog("Cannot cache object \"" + object + "\" because we hit the cache limit!", GlobalEnums.LogLevels.Error)
+			customlog("Cannot cache object \"" + object + "\" because we hit the cache limit!", GlobalEnums.LogLevels.Error)
 		newobj = newobj.instantiate()
 		get_tree().current_scene.add_child(newobj)
 		return newobj
@@ -83,7 +83,7 @@ func getRandomTilePosOnTilemap(tileAtlasCoords: Vector2i):
 	var tilemap: TileMap = get_tree().current_scene.get_node_or_null("%tileMap")
 	var authorizedTiles = []
 	var nonAuthorizedTiles = []
-	if !tilemap: clog("Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?", GlobalEnums.LogLevels.Warn); return;
+	if !tilemap: customlog("Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?", GlobalEnums.LogLevels.Warn); return;
 	for coord in tilemap.get_used_cells(0):
 		if !(tilemap.get_cell_atlas_coords(0, coord) == tileAtlasCoords): nonAuthorizedTiles.append(coord); continue;
 		else: authorizedTiles.append(coord);
@@ -112,7 +112,7 @@ func clearCaches(type=""):
 			roomCache.clear()
 
 # Custom log command.
-func clog(text: String, type=GlobalEnums.LogLevels.Log):
+func customlog(text: String, type=GlobalEnums.LogLevels.Log):
 	if type == GlobalEnums.LogLevels.Warn:
 		print_rich("[color=yellow]USAPI: " + text + "[/color]")
 		push_warning("USAPI: " + text)
