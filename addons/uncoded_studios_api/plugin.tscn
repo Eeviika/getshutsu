@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://r61govs3745n"]
+
+[ext_resource type="Script" path="res://addons/uncoded_studios_api/autoload.gd" id="1_iqvau"]
+[ext_resource type="FontFile" uid="uid://osuymwm8od2w" path="res://addons/uncoded_studios_api/font.otf" id="2_q8dyd"]
+
+[sub_resource type="Theme" id="Theme_t1pj6"]
+default_font = ExtResource("2_q8dyd")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6em7u"]
+
+[node name="USAPI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_iqvau")
+
+[node name="Console" type="Control" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_t1pj6")
+
+[node name="Panel" type="Panel" parent="Console"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="CmdInput" type="LineEdit" parent="Console/Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 600.0
+offset_right = 1144.0
+offset_bottom = 639.0
+placeholder_text = "Enter command..."
+context_menu_enabled = false
+virtual_keyboard_type = 6
+clear_button_enabled = true
+middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+
+[node name="Logs" type="RichTextLabel" parent="Console/Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 1144.0
+offset_bottom = 592.0
+focus_mode = 2
+bbcode_enabled = true
+text = "░█░█░█▀▀░█▀█░█▀█░▀█▀
+░█░█░▀▀█░█▀█░█▀▀░░█░
+░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀
+
+░█░█░█▀█░█▀▀░█▀█░█▀▄░█▀▀░█▀▄░░░█▀▀░▀█▀░█░█░█▀▄░▀█▀░█▀█░█▀▀
+░█░█░█░█░█░░░█░█░█░█░█▀▀░█░█░░░▀▀█░░█░░█░█░█░█░░█░░█░█░▀▀█
+░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀░░▀▀▀░▀▀░░░░▀▀▀░░▀░░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀
+"
+scroll_following = true
+tab_size = 0
+selection_enabled = true
+drag_and_drop_selection_enabled = false
+
+[node name="AudioPlayers" type="Node" parent="."]
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+disable_3d = true
+title = "Settings"
+initial_position = 2
+size = Vector2i(350, 300)
+keep_title_visible = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_6em7u")

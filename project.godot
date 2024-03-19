@@ -8,6 +8,28 @@
 
 config_version=5
 
+[USAPI]
+
+Caching/DoCaching=true
+Caching/CacheObjects=true
+Caching/CacheResources=true
+Caching/CacheRooms=true
+Caching/CacheAudio=false
+Caching/CacheLimit=0
+Caching/CacheObjectsOnStart=true
+Caching/CacheResourcesOnStart=true
+Caching/CacheRoomsOnStart=true
+Caching/CacheAudioOnStart=false
+Paths/ObjectsPath="res://objects"
+Paths/ResourcesPath="res://resources"
+Paths/AudioPath="res://audio"
+Paths/ScriptsPath="res://scripts"
+Paths/AssetsPath="res://assets"
+Paths/RoomsPath="res://rooms"
+Console/ConsoleEnabled=true
+Console/AllowCustomConsoleCommands=false
+Misc/UseDefaultSettingsMenu=true
+
 [application]
 
 config/name="Getshutsu"
@@ -22,7 +44,7 @@ config/icon="res://placeholder.svg"
 [autoload]
 
 GlobalEnums="*res://scripts/enums.gd"
-usapi="*res://scripts/usapi.gd"
+usapi="*res://addons/uncoded_studios_api/plugin.tscn"
 
 [debug]
 
@@ -39,7 +61,7 @@ naming/scene_name_casing=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ResourcePlus/plugin.cfg")
+enabled=PackedStringArray("res://addons/ResourcePlus/plugin.cfg", "res://addons/uncoded_studios_api/plugin.cfg")
 
 [filesystem]
 

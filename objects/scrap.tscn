@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr43xfd71rxk7"]
+
+[ext_resource type="Texture2D" uid="uid://buvp5l1s55x4c" path="res://placeholder.svg" id="1_g1sm2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ix4f"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_vcn6h"]
+font_size = 23
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r7i31"]
+font_size = 18
+
+[node name="scrap" type="Node2D"]
+
+[node name="sprite2d" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_g1sm2")
+
+[node name="panel" type="Panel" parent="."]
+texture_filter = 1
+offset_right = 152.0
+offset_bottom = 48.0
+
+[node name="hBoxContainer" type="HBoxContainer" parent="panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 152.0
+offset_bottom = 48.0
+
+[node name="keyhint" type="Label" parent="panel/hBoxContainer"]
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ix4f")
+text = "E"
+label_settings = SubResource("LabelSettings_vcn6h")
+horizontal_alignment = 1
+
+[node name="interacthint" type="Label" parent="panel/hBoxContainer"]
+layout_mode = 2
+text = "Interact"
+label_settings = SubResource("LabelSettings_r7i31")
+
+[node name="canvasLayer" type="CanvasLayer" parent="."]
