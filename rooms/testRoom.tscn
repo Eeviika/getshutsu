@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://3b5cl3n7esvg"]
+[gd_scene load_steps=25 format=3 uid="uid://3b5cl3n7esvg"]
 
 [ext_resource type="Texture2D" uid="uid://lf5emdfxpxaf" path="res://assets/tiles-1.png" id="1_y1rq3"]
 [ext_resource type="PackedScene" uid="uid://d0fg4744utt04" path="res://objects/player.tscn" id="2_10jlr"]
 [ext_resource type="PackedScene" uid="uid://cckmpywdcsghx" path="res://objects/enemy.tscn" id="3_sxqk2"]
 [ext_resource type="PackedScene" uid="uid://cr43xfd71rxk7" path="res://objects/scrap.tscn" id="4_mml2q"]
+[ext_resource type="PackedScene" uid="uid://daq2dvp26tkmv" path="res://objects/inGameUI.tscn" id="5_gworr"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cermq"]
 vertices = PackedVector2Array(-10, 118, -102, 118, -102, 106, -10, 106, 374, 118, 282, 118, 282, 106, 374, 106, -74, -86, 6, -86, 6, -74, -102, -74, -102, -310, -74, -310, -10, 22, -38, 22, -38, 10, -10, 10, 310, 22, 282, 22, 282, 10, 310, 10, 22, -202, 10, -202, 10, -214, 22, -214, 166, -214, 166, -202, 150, -202, 106, -214, 150, -74, 122, -74, 122, -202, 106, -202, 262, -202, 250, -202, 250, -214, 262, -214, 374, -74, 266, -74, 266, -86, 346, -86, 374, -310, 346, -310, 346, -26, 214, -26, 202, -38, 214, -38, 310, -294, 310, -122, 298, -134, 298, -250, 230, -122, 230, -134, 358, -38, 358, 70, 346, 58, 246, 70, 246, 58, 58, 26, 70, 26, 118, 102, 26, 102, 26, 70, 42, -134, 58, -166, 70, -166, 86, -90, 70, -90, 42, -122, -38, -294, 214, -250, 214, -166, 230, -166, 230, -90, 214, -90, 202, -166, 202, -90, 186, -90, 186, -166, 202, -250, 70, -250, 86, -166, 58, -250, -26, -250, -38, -122, -26, -134, 42, -166, 214, 26, 246, 26, 246, 102, 154, 102, 154, 26, 202, 26, 202, -26, 70, -38, 70, -26, 118, 26, 58, -26, 58, -38, 26, 58, 26, 26, -74, 58, -86, 70, -86, -38, -74, -26, 58, -90, 42, -90)
@@ -178,7 +179,7 @@ layer_0/tile_data = PackedInt32Array(131077, 0, 0, 196613, 0, 0, 196614, 0, 0, 1
 layer_1/name = "literally everything else"
 layer_1/tile_data = PackedInt32Array(327685, 0, 0, 262147, 0, 0, 131075, 0, 0)
 
-[node name="player" parent="." groups=["player"] instance=ExtResource("2_10jlr")]
+[node name="player" parent="." instance=ExtResource("2_10jlr")]
 position = Vector2(376, 192)
 
 [node name="enemy" parent="." instance=ExtResource("3_sxqk2")]
@@ -186,3 +187,6 @@ position = Vector2(840, -1032)
 
 [node name="scrap" parent="." instance=ExtResource("4_mml2q")]
 position = Vector2(-312, 328)
+
+[node name="inGameUi" parent="." node_paths=PackedStringArray("UITarget") instance=ExtResource("5_gworr")]
+UITarget = NodePath("../enemy")

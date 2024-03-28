@@ -10,6 +10,7 @@ default_font = ExtResource("2_q8dyd")
 
 [node name="USAPI" type="CanvasLayer"]
 process_mode = 3
+layer = 128
 script = ExtResource("1_iqvau")
 
 [node name="Console" type="Control" parent="."]

@@ -6,7 +6,7 @@ const autoload_name := "usapi"
 func _enter_tree():
     print("Init usapi plugin")
     add_autoload_singleton(autoload_name, "res://addons/uncoded_studios_api/plugin.tscn")
-    if ProjectSettings.has_setting("USAPI/Misc/UseDefaultSettingsMenu"): createDefaultSettings()
+    if !ProjectSettings.has_setting("USAPI/Misc/UseDefaultSettingsMenu"): createDefaultSettings()
     pass
 
 func createDefaultSettings():

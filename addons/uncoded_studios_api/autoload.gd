@@ -341,7 +341,20 @@ func _smart_cache(object, alias: String = str(randf() * 5)) -> bool:
     }
     return true
     
-        
+func getRandomTilePosOnTilemap(tileAtlasCoords: Vector2i):
+    var tilemap: TileMap = get_tree().current_scene.get_node_or_null("%tileMap")
+    var authorizedTiles = []
+    var nonAuthorizedTiles = []
+    if !tilemap: doLog("Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?", LogLevels.Warn); return;
+    for coord in tilemap.get_used_cells(0):
+        if !(tilemap.get_cell_atlas_coords(0, coord) == tileAtlasCoords): nonAuthorizedTiles.append(coord); continue;
+        else: authorizedTiles.append(coord);
+    for coord in nonAuthorizedTiles: if coord in authorizedTiles:
+        authorizedTiles.erase(coord)
+    
+    if authorizedTiles.is_empty(): return;
+
+    return tilemap.to_global(tilemap.map_to_local(authorizedTiles.pick_random()))        
             
 
 
