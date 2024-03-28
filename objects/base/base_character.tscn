@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bii1bavo2fjbt"]
+
+[ext_resource type="Script" path="res://scripts/base_character.gd" id="1_icbbu"]
+
+[node name="base_character" type="CharacterBody2D"]
+editor_description = "Base class for characters. Editing this will change most NPCs, like enemy.tscn and player.tscn."
+script = ExtResource("1_icbbu")
