@@ -1,53 +1,50 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0fg4744utt04"]
+[gd_scene load_steps=8 format=3 uid="uid://b646ikysjsxq5"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_1qugl"]
+[ext_resource type="PackedScene" uid="uid://bii1bavo2fjbt" path="res://objects/base/base_character.tscn" id="1_2as6a"]
 [ext_resource type="Texture2D" uid="uid://f1wa8su6toy3" path="res://assets/player.png" id="2_nsgsq"]
 [ext_resource type="Texture2D" uid="uid://bt4xw736l07n7" path="res://assets/light_neutral.webp" id="3_omq4t"]
 [ext_resource type="Texture2D" uid="uid://xnijms8jkhpp" path="res://assets/flash.svg" id="4_oo1ld"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8k6jl"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_8drt8"]
 radius = 24.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4locx"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_h7snr"]
 radius = 32.0
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
-editor_description = "Player-character."
-collision_layer = 11
-collision_mask = 11
-motion_mode = 1
+[node name="player" groups=["player"] instance=ExtResource("1_2as6a")]
 script = ExtResource("1_1qugl")
 
-[node name="collisionShape2d" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_8k6jl")
+[node name="collisionShape2d" type="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CircleShape2D_8drt8")
 
-[node name="flashLight" type="PointLight2D" parent="."]
+[node name="flashLight" type="PointLight2D" parent="." index="1"]
 shadow_enabled = true
 texture = ExtResource("4_oo1ld")
 offset = Vector2(182, 0)
 texture_scale = 1.3
 metadata/_edit_lock_ = true
 
-[node name="pointLight2d" type="PointLight2D" parent="."]
+[node name="pointLight2d" type="PointLight2D" parent="." index="2"]
 shadow_enabled = true
 texture = ExtResource("3_omq4t")
 metadata/_edit_lock_ = true
 
-[node name="camera2d" type="Camera2D" parent="."]
+[node name="camera2d" type="Camera2D" parent="." index="3"]
 position_smoothing_enabled = true
 
-[node name="sprite2d" type="Sprite2D" parent="."]
+[node name="sprite2d" type="Sprite2D" parent="." index="4"]
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("2_nsgsq")
 
-[node name="soundArea" type="Area2D" parent="."]
+[node name="soundArea" type="Area2D" parent="." index="5"]
 monitoring = false
 
-[node name="collisionShape2d" type="CollisionShape2D" parent="soundArea"]
-shape = SubResource("CircleShape2D_4locx")
+[node name="collisionShape2d" type="CollisionShape2D" parent="soundArea" index="0"]
+shape = SubResource("CircleShape2D_h7snr")
 debug_color = Color(0.654902, 0.517647, 0, 0.419608)
 
-[node name="timers" type="Node2D" parent="."]
+[node name="timers" type="Node2D" parent="." index="6"]
 
-[node name="footstepSound" type="Timer" parent="timers"]
+[node name="footstepSound" type="Timer" parent="timers" index="0"]
