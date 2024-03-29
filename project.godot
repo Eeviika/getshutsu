@@ -15,7 +15,7 @@ Caching/CacheObjects=true
 Caching/CacheResources=true
 Caching/CacheRooms=true
 Caching/CacheAudio=false
-Caching/CacheLimit=0
+Caching/CacheLimit=50
 Caching/CacheObjectsOnStart=true
 Caching/CacheResourcesOnStart=true
 Caching/CacheRoomsOnStart=true
@@ -141,17 +141,3 @@ Console={
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
-
-[uncoded_studios]
-
-usapi/is_active=true
-usapi/objects_folder="res://objects"
-usapi/resources_folder="res://resources"
-usapi/rooms_folder="res://rooms"
-usapi/audio_folder="res://audio"
-usapi/scripts_folder="res://scripts"
-caching/cache_all_objects_on_start=false
-caching/cache_all_audio_on_start=true
-caching/cache_all_resources_on_start=false
-caching/cache_all_rooms_on_start=false
-caching/cache_limit=50
