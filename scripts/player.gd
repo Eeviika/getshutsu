@@ -1,33 +1,24 @@
-extends CharacterBody2D
+extends "res://scripts/base_character.gd"
 
-signal healthChanged(prevValue, newValue)
-
-var health = 5 : 
-    set(value):
-        healthChanged.emit(health, value)
-        health = value
-const max_health := 5
-
-var accel = 150
-
-func damage(damageAmount):
-    health -= damageAmount
+# Weaponized Artificial Life Leech
 
 func _unhandled_input(_event):
     velocity = Vector2()
     if Input.is_action_pressed("_up"):
-        velocity.y -= accel
+        velocity.y -= speed
     if Input.is_action_pressed("_down"):
-        velocity.y += accel
+        velocity.y += speed
     if Input.is_action_pressed("_left"):
-        velocity.x -= accel
+        velocity.x -= speed
     if Input.is_action_pressed("_right"):
-        velocity.x += accel
+        velocity.x += speed
     if Input.is_action_just_pressed("_fire"):
-        var bul: StaticBody2D = usapi.summonObject("playerBullet")
-        bul.global_position = global_position
-        bul.global_position += Vector2.RIGHT.rotated(rotation) * 32
-        bul.rotation = rotation
+        var bullet: StaticBody2D = usapi.summonObject("playerBullet")
+        # usapi.bindVisibilityToObject(self, bullet)
+        bullet.global_position = global_position
+        bullet.global_position += Vector2.RIGHT.rotated(rotation) * 32
+        bullet.rotation = rotation
+        
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
