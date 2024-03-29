@@ -83,7 +83,7 @@ func _ready():
         var cache_clear_timer := Timer.new()
         cache_clear_timer.autostart = true
         cache_clear_timer.wait_time = 120
-        cache_clear_timer.timeout.connect(func()->void:
+        cache_clear_timer.timeout.connect(func() -> void:
             clearCaches("objects")
             clearCaches("resources")
         )
@@ -105,9 +105,9 @@ func _ready():
         modLoaderNode.set_script(modLoader)
         modLoader = modLoaderNode
     setCommand("clear_all_caches", clearCaches)
-    setCommand("reload_room", reloadScene)  
-    setCommand("summon_object", func(args)->void:
-        if args.is_empty(): return;
+    setCommand("reload_room", reloadScene)
+    setCommand("summon_object", func(args) -> void:
+        if args.is_empty(): return ;
         summonObject(args[0])
     )
 
@@ -119,7 +119,7 @@ func _input(event):
         if console.visible: consoleInput.call_deferred("grab_focus")
         get_viewport().set_input_as_handled()
     if projectConfig.consoleEnabled and get_viewport().gui_get_focus_owner() == consoleInput and event is InputEventKey and event.keycode == KEY_ENTER:
-        var args : Array = consoleInput.text.split(" ")
+        var args: Array = consoleInput.text.split(" ")
         args.erase(consoleInput.text.split(" ")[0])
         doCommand(consoleInput.text.split(" ")[0], args)
         consoleInput.text = ""
@@ -152,15 +152,15 @@ func clearCaches(type=""):
             cache.rooms.clear()
 
 ## Creates a command.
-func setCommand(alias:String, callable:Callable):
+func setCommand(alias: String, callable: Callable):
     alias = alias.to_lower()
-    for c in ["\\", "|", "\"", "'", ";", ":", "/", "?", ".", ">", ",", "<", "[", "]", "{", "}", "=", "+", "-", ")", "(", "*", "&", "^", "%", "$", "#", "@", "~", "`"]: 
+    for c in ["\\", "|", "\"", "'", ";", ":", "/", "?", ".", ">", ",", "<", "[", "]", "{", "}", "=", "+", "-", ")", "(", "*", "&", "^", "%", "$", "#", "@", "~", "`"]:
         alias = alias.replace(c, "")
     commands[alias] = callable
 
 ## Calls a command.
 func doCommand(alias: String, arguments: Array):
-    if alias.strip_edges() == "": return;
+    if alias.strip_edges() == "": return ;
     doLog("> {0} {1}".format([alias, str(arguments)]))
     if !commands.has(alias): return doLog("Command \"" + alias + "\" does not exist.", LogLevels.Warn)
     if alias.begins_with("db_") and !debugMode: return doLog("Command \"" + alias + "\" will not run with your current permissions.", LogLevels.Warn)
@@ -170,7 +170,7 @@ func doCommand(alias: String, arguments: Array):
 func doLog(text: String, type: LogLevels=LogLevels.Log):
     internallogs.append(text)
     if type == LogLevels.Internal:
-        return;
+        return ;
     if type == LogLevels.Warn:
         print_rich("(W) USAPI: " + text)
         push_warning("USAPI: " + text)
@@ -184,7 +184,7 @@ func doLog(text: String, type: LogLevels=LogLevels.Log):
         assert(false, "USAPI " + text)
         propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
         get_tree().quit()
-        return;
+        return ;
     print("USAPI: " + text)
 
 ## Reloads the currently active scene.
@@ -216,7 +216,7 @@ func summonObject(alias: String, doCache=true):
     return newobj
 
 func bindVisibilityToObject(objectBinder: Node2D, objectBinded: Node2D):
-    if !objectBinded: return;
+    if !objectBinded: return ;
     var ray := RayCast2D.new()
     var timer := Timer.new()
     timer.wait_time = 0.01
@@ -229,16 +229,14 @@ func bindVisibilityToObject(objectBinder: Node2D, objectBinded: Node2D):
         if !objectBinded:
             ray.queue_free()
             timer.queue_free()
-            return;
-        objectBinded.visible = false
-        ray.target_position = objectBinder.to_local(objectBinder.global_position)
+            return ;
+        objectBinded.visible=false
+        ray.target_position=objectBinder.to_local(objectBinder.global_position)
         if ray.get_collider() == objectBinded:
-            objectBinded.visible = true
+            objectBinded.visible=true
     )
-    
-    
 
-func startAudio(alias: String, startAt: int = 0, doCache: bool = true):
+func startAudio(alias: String, startAt: int=0, doCache: bool=true):
     if alias in cache.audio.keys():
         cache.audio[alias].times_used += 1
         cache.audio[alias].last_used = Time.get_ticks_msec()
@@ -258,11 +256,10 @@ func startAudio(alias: String, startAt: int = 0, doCache: bool = true):
     audioobj.volume_db = -80 * (global_volume - 1.0)
     $AudioPlayers.add_child(audioobj)
     return audioobj
-        
 
 ## INTERNAL FUNCTION.
 ## Uses advanced logic to cache an object.
-func _smart_cache(object, alias: String = str(randf() * 5)) -> bool:
+func _smart_cache(object, alias: String=str(randf() * 5)) -> bool:
     if !projectConfig.doCaching: doLog("Not caching because caching is disabled globally.", LogLevels.Internal); return false;
     if !object: doLog("Attempted to smart cache null.", LogLevels.Error); return false;
     var is_resource = object is Resource and object.resource_path.begins_with(projectConfig.resourcesFolder)
@@ -273,11 +270,11 @@ func _smart_cache(object, alias: String = str(randf() * 5)) -> bool:
     doLog("Attempting to cache {0}, flags - isResource: {1}, isAudio: {2}, isRoom: {3}".format([str(object), str(is_resource), str(is_audio), str(is_room)]), LogLevels.Internal)
     if is_resource:
         var resourceObject: Resource = object; object = null # Transfer variables. This serves no actual purpose but to assist with code suggestions because I don't like reading ;.;
-        if len(cache.resources) >= projectConfig.cacheLimit: 
+        if len(cache.resources) >= projectConfig.cacheLimit:
             doLog("Resources Cache full, doing smart cache removal", LogLevels.Internal)
             for cached: String in cache.resources.keys():
                 var cache_score = \
-                    -(cache.resources[cached].times_used * 0.5) + \
+                    - (cache.resources[cached].times_used * 0.5) + \
                     ((Time.get_ticks_msec() - cache.resources[cached].last_used) * 0.3) + \
                     ((Time.get_ticks_msec() - cache.resources[cached].cache_timestamp) * 0.2)
                 if bad_cache_score < cache_score:
@@ -297,11 +294,11 @@ func _smart_cache(object, alias: String = str(randf() * 5)) -> bool:
     if is_audio:
         var audioObject: AudioStream = object; object = null # Transfer variables. This serves no actual purpose but to assist with code suggestions because I don't like reading ;.;
         if audioObject.get_length() >= 90: doLog("Did not cache audio object path \"{0}\", length was {1} which is over 90 seconds.".format([audioObject.resource_path, str(audioObject.get_length())]), LogLevels.Log); return false;
-        if len(cache.audio) >= projectConfig.cacheLimit: 
+        if len(cache.audio) >= projectConfig.cacheLimit:
             doLog("Audio Cache full, doing smart cache removal", LogLevels.Internal)
             for audioCache: String in cache.audio.keys():
                 var cache_score = \
-                    -(cache.audio[audioCache].times_used * 0.5) + \
+                    - (cache.audio[audioCache].times_used * 0.5) + \
                     ((Time.get_ticks_msec() - cache.audio[audioCache].last_used) * 0.3) + \
                     ((Time.get_ticks_msec() - cache.audio[audioCache].cache_timestamp) * 0.2)
                 if bad_cache_score < cache_score:
@@ -320,11 +317,11 @@ func _smart_cache(object, alias: String = str(randf() * 5)) -> bool:
         return true
     if is_room:
         var roomObject: PackedScene = object; object = null # Transfer variables. This serves no actual purpose but to assist with code suggestions because I don't like reading ;.;
-        if len(cache.rooms) >= projectConfig.cacheLimit: 
+        if len(cache.rooms) >= projectConfig.cacheLimit:
             doLog("Rooms Cache full, doing smart cache removal", LogLevels.Internal)
             for cached: String in cache.rooms.keys():
                 var cache_score = \
-                    -(cache.rooms[cached].times_used * 0.5) + \
+                    - (cache.rooms[cached].times_used * 0.5) + \
                     ((Time.get_ticks_msec() - cache.rooms[cached].last_used) * 0.3) + \
                     ((Time.get_ticks_msec() - cache.rooms[cached].cache_timestamp) * 0.2)
                 if bad_cache_score < cache_score:
@@ -342,7 +339,7 @@ func _smart_cache(object, alias: String = str(randf() * 5)) -> bool:
         }
         return true
     # If none of the previous checks worked: then store it in Object cache
-    if len(cache.objects) >= projectConfig.cacheLimit: 
+    if len(cache.objects) >= projectConfig.cacheLimit:
         doLog("Objects Cache full, doing smart cache removal", LogLevels.Internal)
         for cached: String in cache.objects.keys():
             var cache_score = \
@@ -368,17 +365,13 @@ func getRandomTilePosOnTilemap(tileAtlasCoords: Vector2i):
     var tilemap: TileMap = get_tree().current_scene.get_node_or_null("%tileMap")
     var authorizedTiles = []
     var nonAuthorizedTiles = []
-    if !tilemap: doLog("Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?", LogLevels.Warn); return;
+    if !tilemap: doLog("Could not getRandomTilePosOnTilemap(), no tilemap found. Is it set to a unique name?", LogLevels.Warn); return ;
     for coord in tilemap.get_used_cells(0):
-        if !(tilemap.get_cell_atlas_coords(0, coord) == tileAtlasCoords): nonAuthorizedTiles.append(coord); continue;
+        if !(tilemap.get_cell_atlas_coords(0, coord) == tileAtlasCoords): nonAuthorizedTiles.append(coord); continue ;
         else: authorizedTiles.append(coord);
     for coord in nonAuthorizedTiles: if coord in authorizedTiles:
         authorizedTiles.erase(coord)
     
-    if authorizedTiles.is_empty(): return;
+    if authorizedTiles.is_empty(): return ;
 
-    return tilemap.to_global(tilemap.map_to_local(authorizedTiles.pick_random()))        
-            
-
-
-
+    return tilemap.to_global(tilemap.map_to_local(authorizedTiles.pick_random()))
