@@ -105,7 +105,7 @@ func _ready():
         modLoaderNode.set_script(modLoader)
         modLoader = modLoaderNode
     setCommand("clear_all_caches", clearCaches)
-    setCommand("reload_room", reloadScene)
+    setCommand("reload_room", reloadScene)  
     setCommand("summon_object", func(args)->void:
         if args.is_empty(): return;
         summonObject(args[0])
@@ -214,6 +214,29 @@ func summonObject(alias: String, doCache=true):
     newobj = newobj.instantiate()
     get_tree().current_scene.add_child(newobj)
     return newobj
+
+func bindVisibilityToObject(objectBinder: Node2D, objectBinded: Node2D):
+    if !objectBinded: return;
+    var ray := RayCast2D.new()
+    var timer := Timer.new()
+    timer.wait_time = 0.01
+    timer.autostart = true
+    timer.one_shot = false
+    ray.name = "visibilityRayTo" + objectBinded.name
+    objectBinder.add_child(ray)
+    ray.add_child(timer)
+    timer.timeout.connect(func():
+        if !objectBinded:
+            ray.queue_free()
+            timer.queue_free()
+            return;
+        objectBinded.visible = false
+        ray.target_position = objectBinder.to_local(objectBinder.global_position)
+        if ray.get_collider() == objectBinded:
+            objectBinded.visible = true
+    )
+    
+    
 
 func startAudio(alias: String, startAt: int = 0, doCache: bool = true):
     if alias in cache.audio.keys():
