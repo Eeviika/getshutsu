@@ -1,15 +1,22 @@
 extends CanvasLayer
 
-@export var UITarget: CharacterBody2D 
+@export var UITarget: Node2D 
 
 @onready var healthBar: TextureProgressBar = $control/textureProgressBar
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    if not UITarget: queue_free()
-    if UITarget.get("health"):
-        var hp: int = UITarget.health
-        
+    if not UITarget: queue_free(); return;
+    await UITarget.ready
+    if UITarget.get("max_health"):
+        healthBar.max_value = UITarget.max_health
+    if UITarget.has_signal("healthChanged"):
+        healthBar.value = UITarget.health
+        UITarget.healthChanged.connect(func(_prev, current):
+            var tween := healthBar.create_tween()
+            tween.tween_property(healthBar, "value", current, 0.5).set_ease(Tween.EASE_IN)
+        )
+        UITarget.damage(50)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,8 +24,7 @@ func _process(delta):
     if !UITarget:
         healthBar.value = 0
         return;
-    if UITarget.get("max_health"):
-        healthBar.max_value = UITarget.max_health
+
 
 func graduallyProgressVal(value, targetValue, maxStep):
     if value == targetValue:
