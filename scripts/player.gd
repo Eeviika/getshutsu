@@ -5,7 +5,7 @@ extends "res://scripts/base_character.gd"
 
 enum AnimationState{WalkNW, WalkW, WalkSW, WalkS, WalkSE, WalkE, WalkNE, WalkN}
 
-enum Direction {North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest}
+enum Direction {NorthWest, West, SouthWest, South, SouthEast, East, NorthEast, North}
 
 var currentAnimationState: AnimationState
 
