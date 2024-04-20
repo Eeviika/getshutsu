@@ -32,7 +32,8 @@ func getMouseDirection():
     # Determine what direction we're looking in.
     # okay so future note to self
     # DO NOT ROUND EXPECTING IT TO BECOME A TYPE INT BECAUSE IT WONT HOLY SHIT I SPENT LIKE 3 DAYS SO FUCKING ANNOYED OVER THIS AAAAAAAAAAAAAAAA
-    print (range(global_position.x-200, global_position.x+200).has(int(get_global_mouse_position().x)))
+
+    # Main 4 cardinal directions w/ dead zones
     if int(round(get_global_mouse_position().y)) <= int(round(global_position.y)) and range(global_position.x-175, global_position.x+175).has(int(round(get_global_mouse_position().x))):
         return Direction.North
     if int(round(get_global_mouse_position().y)) > int(round(global_position.y)) and range(global_position.x-175, global_position.x+175).has(int(round(get_global_mouse_position().x))):
@@ -41,7 +42,17 @@ func getMouseDirection():
         return Direction.East
     if int(round(get_global_mouse_position().x)) < int(round(global_position.x)) and range(global_position.y-175, global_position.y+175).has(int(round(get_global_mouse_position().y))):
         return Direction.West
-    return 
+    
+    # The other 4 cardinal directions
+    if get_global_mouse_position().x >= global_position.x and get_global_mouse_position().y <= global_position.y:
+        return Direction.NorthEast
+    if get_global_mouse_position().x < global_position.x and get_global_mouse_position().y <= global_position.y:
+        return Direction.NorthWest
+    if get_global_mouse_position().x >= global_position.x and get_global_mouse_position().y > global_position.y:
+        return Direction.SouthEast
+    if get_global_mouse_position().x < global_position.x and get_global_mouse_position().y > global_position.y:
+        return Direction.SouthWest
+    
 
 func animate():
     print(getMouseDirection())
