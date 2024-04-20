@@ -191,7 +191,3 @@ position = Vector2(776, 312)
 
 [node name="Player" parent="." instance=ExtResource("2_10jlr")]
 position = Vector2(56, -64)
-defense = 0
-maxHealth = 100
-enablePathfinding = false
-speed = 150

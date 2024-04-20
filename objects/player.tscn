@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bii1bavo2fjbt" path="res://objects/base/base_character.tscn" id="1_2as6a"]
 [ext_resource type="Texture2D" uid="uid://bt4xw736l07n7" path="res://assets/light_neutral.webp" id="3_omq4t"]
 [ext_resource type="Texture2D" uid="uid://xnijms8jkhpp" path="res://assets/flash.svg" id="4_oo1ld"]
-[ext_resource type="SpriteFrames" uid="uid://s61px603eoom" path="res://assets/spritesheets/player_frames.tres" id="5_x580j"]
+[ext_resource type="SpriteFrames" uid="uid://s61px603eoom" path="res://resources/player_frames.tres" id="5_x580j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8drt8"]
 radius = 24.0832
