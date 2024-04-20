@@ -17,6 +17,10 @@ texture_filter = 1
 collision_layer = 9
 collision_mask = 9
 script = ExtResource("1_1qugl")
+defense = null
+maxHealth = null
+enablePathfinding = null
+speed = null
 
 [node name="collisionShape2d" type="CollisionShape2D" parent="." index="0"]
 position = Vector2(0, 21)

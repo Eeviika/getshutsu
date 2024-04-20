@@ -28,7 +28,7 @@ func _unhandled_input(_event):
         bullet.global_position += Vector2.RIGHT.rotated(rotation) * 32
         bullet.rotation = rotation
 
-func getMouseDirection():
+func getMouseDirection() -> Direction:
     # Determine what direction we're looking in.
     # okay so future note to self
     # DO NOT ROUND EXPECTING IT TO BECOME A TYPE INT BECAUSE IT WONT HOLY SHIT I SPENT LIKE 3 DAYS SO FUCKING ANNOYED OVER THIS AAAAAAAAAAAAAAAA
@@ -52,10 +52,13 @@ func getMouseDirection():
         return Direction.SouthEast
     if get_global_mouse_position().x < global_position.x and get_global_mouse_position().y > global_position.y:
         return Direction.SouthWest
+    return Direction.South
     
 
 func animate():
-    print(getMouseDirection())
+    # Check if we are moving (velocity is not (0,0))
+    if velocity != Vector2(0,0):
+        if sprite.animation != ("walk_" + str(getMouseDirection())): sprite.play("walk_" + str(getMouseDirection())) # Check if current anim is already playing (playing it anyways will cause visual glitchy thing)
     
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
