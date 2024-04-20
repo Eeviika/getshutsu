@@ -53,8 +53,8 @@ metadata/_edit_lock_ = true
 
 [node name="sprites" type="Node2D" parent="." index="6"]
 
-[node name="animatedSprite2d" type="AnimatedSprite2D" parent="sprites" index="0"]
+[node name="body" type="AnimatedSprite2D" parent="sprites" index="0"]
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = ExtResource("5_x580j")
-animation = &"walk_1"
+animation = &"idle_0"

@@ -100,6 +100,46 @@ region = Rect2(32, 128, 32, 32)
 
 [resource]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle_0",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_1",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_2",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_3",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_4",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_5",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_6",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle_7",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xuvvk")

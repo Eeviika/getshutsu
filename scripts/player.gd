@@ -1,7 +1,7 @@
 extends "res://scripts/base_character.gd"
 
 @onready var camera : Camera2D = $camera2d
-@onready var sprite : AnimatedSprite2D = $sprites/animatedSprite2d
+@onready var sprite : AnimatedSprite2D = $sprites/body
 
 enum AnimationState{WalkNW, WalkW, WalkSW, WalkS, WalkSE, WalkE, WalkNE, WalkN}
 
@@ -34,13 +34,13 @@ func getMouseDirection() -> Direction:
     # DO NOT ROUND EXPECTING IT TO BECOME A TYPE INT BECAUSE IT WONT HOLY SHIT I SPENT LIKE 3 DAYS SO FUCKING ANNOYED OVER THIS AAAAAAAAAAAAAAAA
 
     # Main 4 cardinal directions w/ dead zones
-    if int(round(get_global_mouse_position().y)) <= int(round(global_position.y)) and range(global_position.x-175, global_position.x+175).has(int(round(get_global_mouse_position().x))):
+    if int(round(get_global_mouse_position().y)) <= int(round(global_position.y)) and range(global_position.x-100, global_position.x+100).has(int(round(get_global_mouse_position().x))):
         return Direction.North
-    if int(round(get_global_mouse_position().y)) > int(round(global_position.y)) and range(global_position.x-175, global_position.x+175).has(int(round(get_global_mouse_position().x))):
+    if int(round(get_global_mouse_position().y)) > int(round(global_position.y)) and range(global_position.x-100, global_position.x+100).has(int(round(get_global_mouse_position().x))):
         return Direction.South
-    if int(round(get_global_mouse_position().x)) >= int(round(global_position.x)) and range(global_position.y-175, global_position.y+175).has(int(round(get_global_mouse_position().y))):
+    if int(round(get_global_mouse_position().x)) >= int(round(global_position.x)) and range(global_position.y-100, global_position.y+100).has(int(round(get_global_mouse_position().y))):
         return Direction.East
-    if int(round(get_global_mouse_position().x)) < int(round(global_position.x)) and range(global_position.y-175, global_position.y+175).has(int(round(get_global_mouse_position().y))):
+    if int(round(get_global_mouse_position().x)) < int(round(global_position.x)) and range(global_position.y-100, global_position.y+100).has(int(round(get_global_mouse_position().y))):
         return Direction.West
     
     # The other 4 cardinal directions
