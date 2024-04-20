@@ -1,0 +1,13 @@
+- Make player flashlight and bullets point in mouse direction
+    - while i'm at it also reduce NSEW deadzones again ;w;
+- Give player the ability to killbind (suicide on command)
+- Create diving anim
+- Add diving (need to make another keybind if required)
+- Make sure diving doesn't cause you to clip into the backrooms and out of bounds
+- Make enemy not frozen and move again
+x Make me a life
+- For some reason, walking into a wall with the flashlight pointed at it will cause said flashlight to go bye bye. Should I fix this??? Might reduce wall camping idk
+- Make player use Weapons & WeaponData 
+- Make enemy actually able to look around realistically (shouldn't be too hard)
+    - while i'm at it also make enemy AI not stupid and actually try to cut off the player
+- Make enemy shoot player (because this wasn't possible before)
