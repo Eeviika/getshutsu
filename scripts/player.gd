@@ -1,7 +1,7 @@
 extends "res://scripts/base_character.gd"
 
 @onready var camera : Camera2D = $camera2d
-@onready var sprite : AnimatedSprite2D = $sprites/body
+@onready var bodySprite : AnimatedSprite2D = $sprites/body
 
 enum AnimationState{WalkNW, WalkW, WalkSW, WalkS, WalkSE, WalkE, WalkNE, WalkN}
 
@@ -56,15 +56,16 @@ func getMouseDirection() -> Direction:
     
 
 func animate():
-    # Check if we are moving (velocity is not (0,0))
+    # Do body animation & check if we are moving (velocity is not (0,0))
     if velocity != Vector2(0,0):
-        if sprite.animation != ("walk_" + str(getMouseDirection())): sprite.play("walk_" + str(getMouseDirection())) # Check if current anim is already playing (playing it anyways will cause visual glitchy thing)
-    
+        if bodySprite.animation != ("walk_" + str(getMouseDirection())): bodySprite.play("walk_" + str(getMouseDirection())) # Check if current anim is already playing (playing it anyways will cause visual glitchy thing)
+    else: # We likely aren't moving then
+        if bodySprite.animation != ("idle_" + str(getMouseDirection())): bodySprite.play("idle_" + str(getMouseDirection())) # Check if current anim is already playing (playing it anyways will cause visual glitchy thing)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
     camera.offset = Vector2(0,0)
-    camera.offset.x = clamp(-(global_position.x - get_global_mouse_position().x) * 0.15, -100, 100)
-    camera.offset.y = clamp(-(global_position.y - get_global_mouse_position().y) * 0.15, -100, 100)
+    camera.offset.x = clamp(-(global_position.x - get_global_mouse_position().x) * 0.05, -100, 100)
+    camera.offset.y = clamp(-(global_position.y - get_global_mouse_position().y) * 0.05, -100, 100)
     animate()
     move_and_slide()
