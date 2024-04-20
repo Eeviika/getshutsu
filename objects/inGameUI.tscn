@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://daq2dvp26tkmv"]
 
 [ext_resource type="Script" path="res://scripts/inGameUI.gd" id="1_85wup"]
-[ext_resource type="Texture2D" uid="uid://bg82y48e7qxm5" path="res://assets/hpbad.png" id="1_q5kt2"]
+[ext_resource type="Texture2D" uid="uid://bg82y48e7qxm5" path="res://assets/scrapped/hpbad.png" id="1_q5kt2"]
 [ext_resource type="Texture2D" uid="uid://ddjmlo0hoa1fv" path="res://assets/hp.png" id="1_wbx0w"]
 
 [node name="inGameUi" type="CanvasLayer"]

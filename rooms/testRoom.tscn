@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://lf5emdfxpxaf" path="res://assets/tiles-1.png" id="1_y1rq3"]
 [ext_resource type="PackedScene" uid="uid://b646ikysjsxq5" path="res://objects/player.tscn" id="2_10jlr"]
-[ext_resource type="PackedScene" uid="uid://cckmpywdcsghx" path="res://objects/enemy.tscn" id="3_sxqk2"]
+[ext_resource type="PackedScene" uid="uid://c0o112rgcmpk" path="res://objects/enemy.tscn" id="3_sxqk2"]
 [ext_resource type="PackedScene" uid="uid://cr43xfd71rxk7" path="res://objects/scrap.tscn" id="4_mml2q"]
 [ext_resource type="PackedScene" uid="uid://daq2dvp26tkmv" path="res://objects/inGameUI.tscn" id="5_gworr"]
 
@@ -180,14 +180,18 @@ layer_0/tile_data = PackedInt32Array(131077, 0, 0, 196613, 0, 0, 196614, 0, 0, 1
 layer_1/name = "literally everything else"
 layer_1/tile_data = PackedInt32Array(327685, 0, 0, 262147, 0, 0, 131075, 0, 0)
 
-[node name="enemy" parent="." instance=ExtResource("3_sxqk2")]
-position = Vector2(840, -1032)
-
 [node name="scrap" parent="." instance=ExtResource("4_mml2q")]
 position = Vector2(-312, 328)
 
 [node name="inGameUi" parent="." node_paths=PackedStringArray("UITarget") instance=ExtResource("5_gworr")]
-UITarget = NodePath("../player")
+UITarget = NodePath("../Enemy")
 
-[node name="player" parent="." instance=ExtResource("2_10jlr")]
-position = Vector2(288, 320)
+[node name="Enemy" parent="." instance=ExtResource("3_sxqk2")]
+position = Vector2(776, 312)
+
+[node name="Player" parent="." instance=ExtResource("2_10jlr")]
+position = Vector2(56, -64)
+defense = 0
+maxHealth = 100
+enablePathfinding = false
+speed = 150

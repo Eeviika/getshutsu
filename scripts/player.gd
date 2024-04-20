@@ -1,5 +1,14 @@
 extends "res://scripts/base_character.gd"
 
+@onready var camera : Camera2D = $camera2d
+@onready var sprite : AnimatedSprite2D = $sprites/animatedSprite2d
+
+enum AnimationState{WalkNW, WalkW, WalkSW, WalkS, WalkSE, WalkE, WalkNE, WalkN}
+
+enum Direction {North, South, East, West, NorthEast, NorthWest, SouthEast, SouthWest}
+
+var currentAnimationState: AnimationState
+
 # Weaponized Artificial Life Leech
 
 func _unhandled_input(_event):
@@ -13,15 +22,35 @@ func _unhandled_input(_event):
     if Input.is_action_pressed("_right"):
         velocity.x += speed
     if Input.is_action_just_pressed("_fire"):
-        var bullet: StaticBody2D = usapi.summonObject("playerBullet")
+        var bullet: StaticBody2D = usapi.objects.summonObject("playerBullet")
         # usapi.bindVisibilityToObject(self, bullet)
         bullet.global_position = global_position
         bullet.global_position += Vector2.RIGHT.rotated(rotation) * 32
         bullet.rotation = rotation
-        
 
+func getMouseDirection():
+    # Determine what direction we're looking in.
+    # okay so future note to self
+    # DO NOT ROUND EXPECTING IT TO BECOME A TYPE INT BECAUSE IT WONT HOLY SHIT I SPENT LIKE 3 DAYS SO FUCKING ANNOYED OVER THIS AAAAAAAAAAAAAAAA
+    print (range(global_position.x-200, global_position.x+200).has(int(get_global_mouse_position().x)))
+    if int(round(get_global_mouse_position().y)) <= int(round(global_position.y)) and range(global_position.x-175, global_position.x+175).has(int(round(get_global_mouse_position().x))):
+        return Direction.North
+    if int(round(get_global_mouse_position().y)) > int(round(global_position.y)) and range(global_position.x-175, global_position.x+175).has(int(round(get_global_mouse_position().x))):
+        return Direction.South
+    if int(round(get_global_mouse_position().x)) >= int(round(global_position.x)) and range(global_position.y-175, global_position.y+175).has(int(round(get_global_mouse_position().y))):
+        return Direction.East
+    if int(round(get_global_mouse_position().x)) < int(round(global_position.x)) and range(global_position.y-175, global_position.y+175).has(int(round(get_global_mouse_position().y))):
+        return Direction.West
+    return 
+
+func animate():
+    print(getMouseDirection())
+    
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-    look_at(get_global_mouse_position())
+    camera.offset = Vector2(0,0)
+    camera.offset.x = clamp(-(global_position.x - get_global_mouse_position().x) * 0.15, -100, 100)
+    camera.offset.y = clamp(-(global_position.y - get_global_mouse_position().y) * 0.15, -100, 100)
+    animate()
     move_and_slide()

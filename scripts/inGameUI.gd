@@ -8,19 +8,17 @@ extends CanvasLayer
 func _ready():
     if not UITarget: queue_free(); return;
     await UITarget.ready
-    if UITarget.get("max_health"):
-        healthBar.max_value = UITarget.max_health
+    if UITarget.get("maxHealth"):
+        healthBar.max_value = UITarget.maxHealth
     if UITarget.has_signal("healthChanged"):
         healthBar.value = UITarget.health
         UITarget.healthChanged.connect(func(_prev, current):
-            var tween := healthBar.create_tween()
-            tween.tween_property(healthBar, "value", current, 0.5).set_ease(Tween.EASE_IN)
+            healthBar.value = current
         )
-        UITarget.damage(50)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
     if !UITarget:
         healthBar.value = 0
         return;

@@ -1,8 +1,8 @@
 extends Node
 
-@onready var console = $Console
-@onready var consoleLogs = $Console/Panel/Logs
-@onready var consoleInput = $Console/Panel/CmdInput
+@onready var console = $canvasLayer/Console
+@onready var consoleLogs = $canvasLayer/Console/Panel/Logs
+@onready var consoleInput = $canvasLayer/Console/Panel/CmdInput
 
 @export var projectSettingsDefaultPath = "USAPI/"
 
@@ -25,6 +25,8 @@ var cache := {
 
     }
 }
+
+var objects = preload("res://addons/uncoded_studios_api/scripts/objects.gd")
 
 var projectConfig := {}
 var commands := {}
@@ -69,7 +71,7 @@ func _ready():
         # Anything else is excluded, we call from ProjectSettings for those.
     }
     projectConfig.make_read_only() # Prevent any additional modifiers. Since we are grabbing from ProjectSettings, no reason to edit this anyway.
-
+    
     doLog("Current config:")
     doLog(str(projectConfig))
 
@@ -108,7 +110,6 @@ func _ready():
     setCommand("reload_room", reloadScene)
     setCommand("summon_object", func(args) -> void:
         if args.is_empty(): return ;
-        summonObject(args[0])
     )
 
 # Check if console key pressed.
@@ -128,6 +129,9 @@ func _input(event):
 func _process(delta):
     if projectConfig.consoleEnabled: consoleLogs.text = ""; for i in internallogs:
         consoleLogs.text = consoleLogs.text + i + "\n"
+
+func getTree():
+    return get_tree()
 
 ## Clears all caches. May free up memory at the cost of lag when loading objects again.
 func clearCaches(type=""):
@@ -181,8 +185,9 @@ func doLog(text: String, type: LogLevels=LogLevels.Log):
         return ;
     if type == LogLevels.Fatal:
         printerr("(F) USAPI: " + text)
-        assert(false, "USAPI " + text)
-        propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+        push_error("USAPI: " + text)
+        OS.alert(ProjectSettings.get_setting("application/config/name") + " has encountered an error and needs to stop.\nWe're sorry!", "Fatal Error")
+        get_window().propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
         get_tree().quit()
         return ;
     print("USAPI: " + text)
@@ -197,23 +202,8 @@ func reloadScene(hardReload=false):
     get_tree().reload_current_scene()
     doLog("Reloaded scene.")
 
-## Summons an object into the current scene and returns it. If the object is not already cached, it will be cached to prevent lag. 
-## If `cache` is disabled, the object will never be cached (unless it already is).
-func summonObject(alias: String, doCache=true):
-    # Check if object exists via ResourceLoader, because when game is exported, objects will be imported into game and can't be checked via FileAccess.
-    if alias in cache.objects.keys(): # Load the preloaded object instead to prevent major disk usage.
-        cache.objects[alias].times_used += 1
-        cache.objects[alias].last_used = Time.get_ticks_msec()
-        var newobj = cache.objects[alias].object.instantiate()
-        get_tree().current_scene.add_child(newobj)
-        return newobj
-    # Load the object from disk and cache it.
-    if not ResourceLoader.exists(projectConfig.objectsFolder + "/" + alias + ".tscn"): doLog("Cannot summon alias \"{0}\", file path \"{1}\" could not be found.".format([alias, projectConfig.objectsFolder + "/" + alias + ".tscn"]), LogLevels.Warn); return null;
-    var newobj = load(projectConfig.objectsFolder + "/" + alias + ".tscn")
-    if doCache: var cacheSuccess = _smart_cache(newobj, alias); doLog(str(cacheSuccess))
-    newobj = newobj.instantiate()
-    get_tree().current_scene.add_child(newobj)
-    return newobj
+
+
 
 func bindVisibilityToObject(objectBinder: Node2D, objectBinded: Node2D):
     if !objectBinded: return ;
@@ -375,3 +365,10 @@ func getRandomTilePosOnTilemap(tileAtlasCoords: Vector2i):
     if authorizedTiles.is_empty(): return ;
 
     return tilemap.to_global(tilemap.map_to_local(authorizedTiles.pick_random()))
+
+func _notification(what):
+    if what == NOTIFICATION_WM_CLOSE_REQUEST:
+        print("Goodbye, World!")
+
+func calcDistance(pos1: Vector2, pos2: Vector2):
+    return ((pos1.x - pos2.x)**2 + (pos1.y - pos2.y)**2)**0.5

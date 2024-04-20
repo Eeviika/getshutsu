@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://r61govs3745n"]
 
-[ext_resource type="Script" path="res://addons/uncoded_studios_api/autoload.gd" id="1_iqvau"]
+[ext_resource type="Script" path="res://addons/uncoded_studios_api/scripts/autoload.gd" id="1_iqvau"]
 [ext_resource type="FontFile" uid="uid://osuymwm8od2w" path="res://addons/uncoded_studios_api/font.otf" id="2_q8dyd"]
 
 [sub_resource type="Theme" id="Theme_t1pj6"]
@@ -8,12 +8,13 @@ default_font = ExtResource("2_q8dyd")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6em7u"]
 
-[node name="USAPI" type="CanvasLayer"]
+[node name="USAPI" type="Node"]
 process_mode = 3
-layer = 128
 script = ExtResource("1_iqvau")
 
-[node name="Console" type="Control" parent="."]
+[node name="canvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Console" type="Control" parent="canvasLayer"]
 visible = false
 texture_filter = 1
 layout_mode = 3
@@ -24,12 +25,12 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_t1pj6")
 
-[node name="Panel" type="Panel" parent="Console"]
+[node name="Panel" type="Panel" parent="canvasLayer/Console"]
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 
-[node name="CmdInput" type="LineEdit" parent="Console/Panel"]
+[node name="CmdInput" type="LineEdit" parent="canvasLayer/Console/Panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 600.0
@@ -43,13 +44,14 @@ middle_mouse_paste_enabled = false
 drag_and_drop_selection_enabled = false
 caret_blink = true
 
-[node name="Logs" type="RichTextLabel" parent="Console/Panel"]
+[node name="Logs" type="RichTextLabel" parent="canvasLayer/Console/Panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 1144.0
 offset_bottom = 592.0
 focus_mode = 2
+mouse_force_pass_scroll_events = false
 bbcode_enabled = true
 text = "░█░█░█▀▀░█▀█░█▀█░▀█▀
 ░█░█░▀▀█░█▀█░█▀▀░░█░
@@ -64,9 +66,9 @@ tab_size = 0
 selection_enabled = true
 drag_and_drop_selection_enabled = false
 
-[node name="AudioPlayers" type="Node" parent="."]
+[node name="AudioPlayers" type="Node" parent="canvasLayer"]
 
-[node name="PopupPanel" type="PopupPanel" parent="."]
+[node name="PopupPanel" type="PopupPanel" parent="canvasLayer"]
 disable_3d = true
 title = "Settings"
 initial_position = 2
