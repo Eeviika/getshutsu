@@ -171,6 +171,7 @@ navigation_layers = 15
 
 [node name="tileMap" type="TileMap" parent="navigationRegion2d"]
 unique_name_in_owner = true
+light_mask = 3
 z_index = -1
 texture_filter = 1
 tile_set = SubResource("TileSet_gq8hb")
